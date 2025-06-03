@@ -8,6 +8,12 @@ The Sakila database is serving an increasing number of queries from staff and cu
 
 For the migration to happen, it is necessary to conceive a suitable data model. From the first discussions with the Sakila management, you quickly understand that one of the main use of the database is to manage (add, update and read) rental information.
 
+## Task Flows: 
+
+1. Evaluate initial relational model. 
+2. Denormalization in MongoDB and Considerations for a new model.
+3. Create a complete model of the Sakila database.
+
 ## Initial Relational Model:
 
 <p align="center">
