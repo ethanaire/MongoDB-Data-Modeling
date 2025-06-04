@@ -28,6 +28,11 @@ A MongoDB document is represented as a JSON record. However, internally MongoDB 
 
 Denormalization in MongoDB is strongly encouraged to read and write a record relative to an entity in one single operation. 
 
+Suppose we have in our database: 
+- 512 customers.
+- 16384 rentals.
+- On average, each customer has around 32 rentals.
+  
 Therefore, we consider 2 following options: 
 1. A collection `customer`, where each document contains information about a customer and an embedded list of all rentals made by the customer.
    
@@ -42,10 +47,12 @@ Therefore, we consider 2 following options:
     - Estimated Size per Document: ~ 154 bytes
 
     With each document:
-    - Contains one customer (154 bytes).
-    - Embeds the entire customer info inside it (203 bytes).
+    - Contains one customer (**203 bytes**).
+    - Contains a list of **32 embedded rentals** (154 bytes each).
     
-    → **Document size** = 154 + 203 = **357 bytes** 
+    → **Document size** = 203 + 32 x 154 = **5131 bytes** 
+   
+    → **Collection size** = 512 x 5131 = **2,626,272 bytes** ~ **2.63 MB**  
 
 3. A collection `rental`, where each document contains information about a rental and an embedded document about the customer that made the rental.
    
@@ -66,11 +73,13 @@ Therefore, we consider 2 following options:
     - Estimated Size per Document: ~ 203 bytes
 
     With each document:
-    - Contains one customer (203 bytes).
-    - Contains a list of 32 embedded rentals (154 bytes each).
+    - Contains one rental (154 bytes).
+    - Contains one customer (**203 bytes**).
     
-    → **Document size** = 203 + 32 x 154 = **5131 bytes** 
+    → **Document size** = 154 + 203 = **357 bytes**
 
+    → **Collection size** = 16,384 x 357 = **5,849,088 bytes** ~ **5.85 MB**
+   
 ## Note: 
 
 The challenge's credit belongs to [Gianluca Quercini](https://gquercini.github.io/) 
