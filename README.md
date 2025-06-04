@@ -79,7 +79,19 @@ Therefore, we consider 2 following options:
     → **Document size** = 154 + 203 = **357 bytes**
 
     → **Collection size** = 16,384 x 357 = **5,849,088 bytes** ~ **5.85 MB**
-   
+
+**_Comparison of 2 Options_**: 
+- `customer` collection with embedded rentals:
+  
+  ✅ Lower total size with fewer documents will guarantee efficient retrival.
+  
+  ❌ Document size limitation (MongoDB’s 16 MB limit), Update complexity (new rental requires updating the entire customer document), Harder partial updates.
+- `rental` collection with embedded customer:
+
+  ✅ Scalability and flexibility in querying rentals by different dimensions with simple writes. 
+
+  ❌ Data redundancy (repeated rental doc repeats customer info), inconsistencies in updating data.
+
 ## Note: 
 
 The challenge's credit belongs to [Gianluca Quercini](https://gquercini.github.io/) 
