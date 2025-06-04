@@ -16,8 +16,11 @@ For the migration to happen, it is necessary to conceive a suitable data model. 
 
 ## Initial Relational Model:
 
+The existing data model:
 <p align="center">
   <img title="Relational Model" alt="Alt text" src="/assets/sakila_logical_schema.png" width="900" height="523">
+
+Description of the tables can be found in [data dictionary](data dictionary.md)
 
 ## Note: 
 
