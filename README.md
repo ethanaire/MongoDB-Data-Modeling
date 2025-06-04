@@ -20,7 +20,56 @@ The existing data model:
 <p align="center">
   <img title="Relational Model" alt="Alt text" src="/assets/sakila_logical_schema.png" width="900" height="523">
 
-Description of the tables can be found in [data dictionary](data dictionary.md)
+Description of the tables can be found in [data dictionary](data/data-dictionary.md)
+
+## Considerations for the new model
+
+A MongoDB document is represented as a JSON record. However, internally MongoDB serializes the JSON record into a BSON record. In practice, a BSON record is a binary representation of a JSON record.
+
+Denormalization in MongoDB is strongly encouraged to read and write a record relative to an entity in one single operation. 
+
+Therefore, we consider 2 following options: 
+1. A collection `customer`, where each document contains information about a customer and an embedded list of all rentals made by the customer.
+   
+    - Fields from relational schema:
+        - 4 integers: `rental_id`, `inventory_id`, `customer_id`, `staff_id`
+        - 2 dates: `rental_date`, `return_date`
+    - Assumed Sizes:
+        - Integer: ~ 12 bytes
+        - Date: ~ 8 bytes
+        - Field name overhead: ~ 5–10 bytes per field
+        - SON document overhead: ~ 16 bytes
+    - Estimated Size per Document: ~ 154 bytes
+
+    With each document:
+    - Contains one customer (154 bytes).
+    - Embeds the entire customer info inside it (203 bytes).
+    
+    → **Document size** = 154 + 203 = **357 bytes** 
+
+3. A collection `rental`, where each document contains information about a rental and an embedded document about the customer that made the rental.
+   
+    - Fields from relational schema:
+        - 3 integers: `store_id`, `address_id`, `customer_id`
+        - 3 strings: `first_name`, `last_name`, `email`
+        - 1 boolean: `active`
+        - 1 date: `create_date`
+    - Assumed Sizes:
+        - First name: 6 characters → 6 × 1.5 = 9 bytes
+        - Last name: 8 characters → 12 bytes
+        - Email: 20 characters → 30 bytes
+        - String field overhead: ~10 bytes per field
+        - Integer: 12 bytes
+        - Boolean: 1 byte + field overhead
+        - Date: 8 bytes
+        - SON document overhead: ~ 16 bytes
+    - Estimated Size per Document: ~ 203 bytes
+
+    With each document:
+    - Contains one customer (203 bytes).
+    - Contains a list of 32 embedded rentals (154 bytes each).
+    
+    → **Document size** = 203 + 32 x 154 = **5131 bytes** 
 
 ## Note: 
 
