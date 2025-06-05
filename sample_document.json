@@ -1,0 +1,24 @@
+{
+  "rental_id": 1001,
+  "rental_date": "2023-06-01T10:00:00Z",
+  "return_date": "2023-06-05T10:00:00Z",
+  "customer": {
+    "customer_id": 1,
+    "store_id": 2,
+    "address_id": 5,
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "active": true,
+    "create_date": "2022-01-01T00:00:00Z"
+  },
+  "staff": {
+    "staff_id": 3
+  },
+  "inventory": {
+    "inventory_id": 200
+  },
+  "payment": {
+    "payment_id": 301
+  }
+}
