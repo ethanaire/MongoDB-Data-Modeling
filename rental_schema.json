@@ -1,0 +1,46 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": ["rental_id", "rental_date", "return_date", "customer", "staff", "inventory", "payment"],
+    "properties": {
+      "rental_id": { "bsonType": "int" },
+      "rental_date": { "bsonType": "date" },
+      "return_date": { "bsonType": "date" },
+      "customer": {
+        "bsonType": "object",
+        "required": ["customer_id", "store_id", "address_id", "first_name", "last_name", "email", "active", "create_date"],
+        "properties": {
+          "customer_id": { "bsonType": "int" },
+          "store_id": { "bsonType": "int" },
+          "address_id": { "bsonType": "int" },
+          "first_name": { "bsonType": "string" },
+          "last_name": { "bsonType": "string" },
+          "email": { "bsonType": "string" },
+          "active": { "bsonType": "bool" },
+          "create_date": { "bsonType": "date" }
+        }
+      },
+      "staff": {
+        "bsonType": "object",
+        "required": ["staff_id"],
+        "properties": {
+          "staff_id": { "bsonType": "int" }
+        }
+      },
+      "inventory": {
+        "bsonType": "object",
+        "required": ["inventory_id"],
+        "properties": {
+          "inventory_id": { "bsonType": "int" }
+        }
+      },
+      "payment": {
+        "bsonType": "object",
+        "required": ["payment_id"],
+        "properties": {
+          "payment_id": { "bsonType": "int" }
+        }
+      }
+    }
+  }
+}
