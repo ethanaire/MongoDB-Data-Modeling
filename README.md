@@ -22,7 +22,7 @@ The existing data model:
 
 Description of the tables can be found in [data dictionary](data/data-dictionary.md)
 
-## Considerations for the new model
+## New Model Considerations:
 
 A MongoDB document is represented as a JSON record. However, internally MongoDB serializes the JSON record into a BSON record. In practice, a BSON record is a binary representation of a JSON record.
 
@@ -92,6 +92,17 @@ Therefore, we consider 2 following options:
 
   ❌ Data redundancy (repeated rental doc repeats customer info), inconsistencies in updating data.
 
+Based on the [logical schema](assets/sakila_logical_schema), a `rental` document does not only need to include information on the customer, but also `staff`, `inventory`, `payment`.
+
+→ Using `rental` collection as the main collection is more beneficial than `customer`: 
+  - It scales better with a large number of rentals.
+  - Embedding related info like `staff`, `inventory`, and `payment` is more natural at the `rental` level (they are tightly coupled with the rental event).
+  - Avoids giant customer documents that would be hard to update or query.
+
+## Data Model in MongoDB:
+
+
+  
 ## Note: 
 
 The challenge's credit belongs to [Gianluca Quercini](https://gquercini.github.io/) 
