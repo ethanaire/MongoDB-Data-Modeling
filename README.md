@@ -104,7 +104,7 @@ Based on the [logical schema](assets/sakila_logical_schema), a `rental` document
 A **complete schema** of a `rental` document is defined [here](rental_schema.json), specifically: 
 - We embed the `customer` object with full detail (as decided earlier).
 - For `staff`, `inventory`, and `payment`, we **only use identifiers** to avoid storage bloat and duplication. Here's why:
-  - A `staff` document is **~ 65 KB** (too large to embed repeatedly).
+  - A `staff` document is **~65 KB** (too large to embed repeatedly).
   - Inventory and payment documents are smaller, but embedding their full data can still lead to redundancy and consistency issues if reused elsewhere.
 
 
