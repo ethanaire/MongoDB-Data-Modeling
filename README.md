@@ -121,9 +121,81 @@ Including **full embedded documents** (especially staff with profile pictures) c
 To save space in this adopted solution, we can: 
 - Reference large or shared documents using **IDs** (applied to staff/inventory/payment info).
 - Embed only **essential or frequently-accessed data** (store info in a separate collection)
-- Using a **hybrid approach** to balance space and performance. 
+- Using a **hybrid approach** to balance space and performance.
 
+### Optimized Document Models:
+1. **Rental** Collection (main)
+   
+    Each rental links to:
+    - `customer`
+    - `staff`
+    - `inventory`
+    - `payment`
 
+    🔁 **Optimized**: Use references only
+    ```json
+    {
+    "rental_id": <int>,
+      "rental_date": <timestamp>,
+      "return_date": <timestamp>,
+      "customer_id": <int>,
+      "staff_id": <int>,
+      "inventory_id": <int>,
+      "payment_id": <int>
+    }
+    ```
+
+2. **Customer** Collection
+   
+    No need to embed rentals — just store customer profile. 
+    
+    ✅ No big savings needed here — already normalized.
+    
+    ```json
+    {
+      "customer_id": <int>,
+      "name": <string>,
+      "email": <string>,
+      "address_id": <int>,
+      "store_id": <int>
+    }
+    ```
+
+3. **Staff** Collection
+
+    Store **once**, not embedded in rentals.
+    
+    ✅ Saved **65,536 bytes** per rental by referencing instead of embedding (picture).
+    
+    ```json
+    {
+      "staff_id": <int>,
+      "name": <string>,
+      "email": <string>,
+      "picture": <binary>
+    }
+    ```
+
+4. **Inventory** Collection
+
+    ```json
+    {
+      "inventory_id": <int>,
+      "film_id": <int>,
+      "store_id": <int>
+    }
+    ```
+5. **Payment** Collection
+
+    ```json
+    {
+      "payment_id": <int>,
+      "customer_id": <int>,
+      "amount": <float>,
+      "payment_date": <timestamp>
+    }
+    
+    ```
 
 ## Note: 
 
