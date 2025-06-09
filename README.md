@@ -18,7 +18,7 @@ For the migration to happen, it is necessary to conceive a suitable data model. 
 
 The existing data model:
 <p align="center">
-  <img title="Relational Model" alt="Alt text" src="/assets/sakila_logical_schema.png" width="900" height="523">
+  <img title="Relational Model" alt="Alt text" src="/assets/sakila_logical_schema.png" width="600" height="349">
 
 Description of the tables can be found in [data dictionary](data/data-dictionary.md)
 
@@ -107,8 +107,24 @@ A **complete schema** of a `rental` document is defined [here](rental_schema.jso
   - A `staff` document is **~65 KB** (too large to embed repeatedly).
   - Inventory and payment documents are smaller, but embedding their full data can still lead to redundancy and consistency issues if reused elsewhere.
 
+Another point of consideration is to calculate the **total storage size** of the database using the chosen schema for the `rental` collection: 
+- Rental base fields ~ 20 bytes
+- Customer info ~ 72 bytes 
+- Staff member info ~ 64 KiB (65,536 bytes), because we store a profile picture
+- Inventory item info = 12 bytes
+- Payment info = 20 bytes 
 
-  
+→ Total estimated size per `rental` document = **65,660 bytes**
+
+Including **full embedded documents** (especially staff with profile pictures) causes storage to **grow dramatically**. Therefore, full denormalization consumes a lot of space, especially when the same data is repeated in many documents. 
+
+To save space in this adopted solution, we can: 
+- Reference large or shared documents using **IDs** (applied to staff/inventory/payment info).
+- Embed only **essential or frequently-accessed data** (store info in a separate collection)
+- Using a **hybrid approach** to balance space and performance. 
+
+
+
 ## Note: 
 
 The challenge's credit belongs to [Gianluca Quercini](https://gquercini.github.io/) 
