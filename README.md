@@ -123,7 +123,7 @@ To save space in this adopted solution, we can:
 - Embed only **essential or frequently-accessed data** (store info in a separate collection)
 - Using a **hybrid approach** to balance space and performance.
 
-### Optimized Document Models:
+### Optimized Document Model:
 1. **Rental** Collection (main)
    
     Each rental links to:
@@ -196,6 +196,16 @@ To save space in this adopted solution, we can:
     }
     
     ```
+    
+## Sakila NoSQL Document Model
+
+Overall, we have found appropriate ways to optimize the inital situation of the **Sakila database**. The final step is to design a full model based on previous considerations. Specifically, we will build a **MongoDB document model (schema)** that: 
+- Reflects the Sakila relational schema.
+- Uses the `rental` collection as the central document.
+- Embeds selected data (`film`, `customer`, `staff`, `inventory`, `payment`).
+    - Storing `film_id` only (instead of full `film` object).
+    - Referencing `actor_id`s instead of full actor names.
+- Skipping address hierarchy or using city/country IDs.
 
 ## Note: 
 
