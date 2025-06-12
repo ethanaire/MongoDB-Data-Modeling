@@ -196,7 +196,9 @@ To save space in this adopted solution, we can:
     }
     
     ```
-    
+
+And other supporting collections: actor, address, store.
+
 ## Sakila NoSQL Document Model
 
 Overall, we have found appropriate ways to optimize the inital situation of the **Sakila database**. The final step is to design a full model based on previous considerations. Specifically, we will build a **MongoDB document model (schema)** that: 
