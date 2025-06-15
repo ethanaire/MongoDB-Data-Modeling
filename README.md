@@ -209,6 +209,11 @@ Overall, we have found appropriate ways to optimize the inital situation of the 
     - Referencing `actor_id`s instead of full actor names.
 - Skipping address hierarchy or using city/country IDs.
 
+With the goal of shifting to a **fully denormalized** MongoDB schema, I have refined the original relational schema by optimizing it for **document storage** and **minimize joins**:
+
+<p align="center">
+  <img title="Relational Model" alt="Alt text" src="/assets/refined_sakila_schema.png" width="600" height="380">
+  
 ## Note: 
 
 The challenge's credit belongs to [Gianluca Quercini](https://gquercini.github.io/) 
